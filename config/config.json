@@ -1,0 +1,9 @@
+{
+	"autostartAquilaServer": true,
+	"dbBackupInterval": 43200000,
+	"NATPorts": [
+		{ "internal": 8000, "external": 80, "protocol": "TCP" },
+		{ "internal": 8555, "external": 443, "protocol": "TCP" },
+		{ "internal": 8555, "external": 8555, "protocol": "TCP" }
+	]
+}

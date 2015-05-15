@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 "use strict";
 
 var async = require("async");
@@ -5,7 +6,8 @@ var express = require("express"),
 	bodyParser = require("body-parser"),
 	methodOverride = require("method-override");
 
-var commander = require("./commander");
+// redirect http to https for aquila-server
+require("./redirector").startRedirector();
 
 var port = process.env.PORT || 5555;
 
@@ -27,28 +29,8 @@ router.get("/", function(req, res)
 		res.render("index.html");
 	});
 
-var api = express.Router();
-
-api.route("/reboot").get(function(req, res)
-	{
-		commander.reboot();
-		res.status(200).send("OK");
-	});
-
-api.route("/shutdown").get(function(req, res)
-	{
-		commander.shutdown();
-		res.status(200).send("OK");
-	});
-
-api.route("/openports").get(function(req, res)
-	{
-		var output = commander.openPorts();
-		res.status(200).send(output);
-	});
-
 app.use(router);
-app.use("/api", api);
+app.use("/api", require("./api"));
 
 app.listen(port, function()
 	{

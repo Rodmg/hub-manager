@@ -20,5 +20,9 @@
     "nat-pmp": "0.0.3",
     "nat-upnp": "^0.2.11",
     "shelljs": "^0.4.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Rodmg/hub-manager.git"
+  },
 }

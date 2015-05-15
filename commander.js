@@ -6,6 +6,7 @@
 require("shelljs/global");
 var config = require("shelljs").config;
 var path = require("path");
+var config = require("./config");
 
 // Util - user home path
 var home = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
@@ -28,8 +29,12 @@ Commander.prototype.reboot = function()
 Commander.prototype.openPorts = function()
 {
 	var output = "";
-	output += exec("upnpc -a `ip route get 8.8.8.8 | awk '{ print $NF; exit }'` 80 80 TCP").output;
-	output += exec("upnpc -a `ip route get 8.8.8.8 | awk '{ print $NF; exit }'` 443 443 TCP").output;
+	var ports = config.current.NATPorts;
+
+	for(var i = 0; i < ports.length; i++)
+	{
+		output += exec("upnpc -a `ip route get 8.8.8.8 | awk '{ print $NF; exit }'` "+ ports[i].internal +" "+ ports[i].external +" "+ ports[i].protocol + " | sed -e 1b -e '$!d'").output;
+	}
 
 	return output;
 };
